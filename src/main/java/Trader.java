@@ -47,7 +47,7 @@ public class Trader {
             Position.ordersCount = 0;
             Position.marginCallsNum.clear();
 
-            for (int i = rnd.randomNums[800]; i < entries; i++) {
+            for (int i = rnd.randomNums[250]; i < entries; i++) {
             //for (int i = rnd.randomNums[k]; i < entries; i++) {
                 entryPrice = btcusd.hourTrend[i][1] * percentage;
                 low = btcusd.hourTrend[i][3];
@@ -74,7 +74,8 @@ public class Trader {
             if (pos != null) {
                 pos.closePosition(false);
                 tradeResults[k] = pos.depo;
-                if (strats.addToStrategiesList(pos.depo))
+                //if (strats.addToStrategiesList(pos.depo))
+                if (strats.alternativeAdd(pos.depo))
                 btcusd.uploadResults(initialDepo,pos.depo,Position.ordersCount,Position.marginCallsNum,takeProfitAt);
                 //System.out.println("Выходные %: " + Arrays.toString(takeProfitAt));
                 //System.out.println("ФИНАЛЬНЫЙ ДЕПОЗИТ:" + new DecimalFormat("###0.00").format(depo) + "; " + Position.ordersCount);

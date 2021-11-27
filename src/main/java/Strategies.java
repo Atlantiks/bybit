@@ -1,10 +1,8 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 public class Strategies {
     List<Double> deposits = new ArrayList<>(51);
+    NavigableSet<Double> results = new TreeSet<>();
     int pos;
 
     Strategies() {
@@ -24,6 +22,19 @@ public class Strategies {
                     return true;
                 }
             }
+        }
+        return false;
+    }
+
+    boolean alternativeAdd(double finalDepo) {
+        if (pos < 50) {
+            pos++;
+            results.add(finalDepo);
+            return true;
+        } else if (results.lower(finalDepo) != null) {
+            results.add(finalDepo);
+            results.pollFirst();
+            return true;
         }
         return false;
     }
