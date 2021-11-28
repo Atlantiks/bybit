@@ -40,10 +40,10 @@ public class Trader {
         int entries = btcusd.hourTrend.length;
         double entryPrice, low;
         averageDepo = 0;
-        tradeResults = new Double[1000];
+        tradeResults = new Double[50];
         CachedPositions cachPos = new CachedPositions();
 
-        for (int k = 999; k >= 0; k--) {
+        for (int k = 1999; k >= 0; k--) {
             depo = initialDepo;
             Position.ordersCount = 0;
             Position.marginCallsNum.clear();
@@ -56,7 +56,7 @@ public class Trader {
                 if (low < entryPrice) {
 
                     pos = new Position(entryPrice, depo * 0.0625, depo, btcusd.hourTrend);
-                    if (k != 0 && cachPos.isCached(i)) {
+                    if (k > 50 && cachPos.isCached(i)) {
                         break;
                     } else {
                         cachPos.activateRecording(depo,i);
@@ -79,18 +79,16 @@ public class Trader {
             }
             if (pos != null) {
                 pos.closePosition(false);
-                tradeResults[k] = pos.depo;
-                //if (strats.addToStrategiesList(pos.depo))
-                if (k == 0 && strats.alternativeAdd(pos.depo))
-                btcusd.uploadResults(initialDepo,pos.depo,Position.ordersCount,Position.marginCallsNum,takeProfitAt);
-                //System.out.println("Выходные %: " + Arrays.toString(takeProfitAt));
-                //System.out.println("ФИНАЛЬНЫЙ ДЕПОЗИТ:" + new DecimalFormat("###0.00").format(depo) + "; " + Position.ordersCount);
-                //Set<Map.Entry<Integer,Integer>> ns = Position.marginCallsNum.entrySet();
-                //ns.forEach(System.out::println);
+                if (k < 50) tradeResults[k] = pos.depo;
+                if (k == 0 && strats.addToStrategiesList(getAverageDeposit()))
+                    btcusd.uploadResults(initialDepo,getAverageDeposit(),Position.ordersCount,Position.marginCallsNum,takeProfitAt);
             } else {
                 System.out.println("Открытия позиции не произошло");
             }
         }
-        //averageDepo = Stream.of(tradeResults).reduce(0.0, Double::sum) / 1000;
+    }
+
+    public static double getAverageDeposit() {
+        return Stream.of(tradeResults).reduce(0.0, Double::sum) / tradeResults.length;
     }
 }

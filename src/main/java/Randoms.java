@@ -1,11 +1,12 @@
 import java.util.Arrays;
 
 public class Randoms {
-    int[] randomNums = new int[1000];
+    int[] randomNums = new int[2000];
 
     Randoms() {
         System.out.println("Запуск генераторов случайных чисел");
-        generateRandomEntryPoints(11800, 25500);
+        //generateRandomEntryPoints(11800, 25500);
+        generateRandomEntryPoints(19000, 25500);
         Arrays.sort(randomNums);
         System.out.println(Arrays.toString(randomNums));
     }
