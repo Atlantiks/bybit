@@ -9,7 +9,6 @@ public class Trend {
     ResultSet rs;
 
     Trend() {
-
         getHistoricalDataFromDB();
     }
 
@@ -43,12 +42,12 @@ public class Trend {
     }
 
     void uploadResults(double initialDepo, double finalDepo, int ordersCount,Map<Integer,Integer> trades, double[] takeProfitAt) {
-        String insertValues = String.format("VALUES (%d, %d, " +
+        String insertValues = String.format("VALUES (%d, %f, " +
                         "%d, " +
                         "%d, %d, %d, %d, " +
                         "null, null, null, " +
                         "%.4f, %.4f, %.4f, %.4f, %.4f, null, null, null)",
-                (int)initialDepo, (int)finalDepo,
+                (int)initialDepo, finalDepo,
                 ordersCount,
                 trades.get(1),trades.get(2),trades.get(3),trades.get(4),
                 takeProfitAt[0], takeProfitAt[1], takeProfitAt[2], takeProfitAt[3], takeProfitAt[4]);
